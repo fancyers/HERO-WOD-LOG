@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Named WOD | Log</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+    <!--  css  -->
+    <link href='{{ url_for("static", filename="all_css.css") }}' rel="stylesheet">
+
+    <!-- js -->
+    <link href='{{ url_for("static", filename="modals.js") }}' rel="javascript">
+
+    <!-- favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='#') }}" type="image/x-icon">
+
+    <!-- google font -->
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+
+    <script type="text/javascript">
+
+        //console.log('{{user_id}}')
+
+        let logData;
+
+        // DOM(Document Object Model)이 완전히 불러와지면 Event 실행
+        // $(function() {  });
+        $(document).ready(function () {
+            showLog()
+        });
+
+        {#날짜 형식 변경 함수#}
+
+        function getFormatDate(date) {
+            let year = date.getFullYear();              //yyyy
+            let month = (1 + date.getMonth());          //M
+            month = month >= 10 ? month : '0' + month;  //month 두자리로 저장
+            let day = date.getDate();                   //d
+            day = day >= 10 ? day : '0' + day;          //day 두자리로 저장
+            return year + '-' + month + '-' + day;       //'-' 추가하여 yyyy-mm-dd 형태 생성 가능
+        }
+
+        // 운동기록 저장
+        function makeLog() {
+            let id = '{{ user_id }}';
+            let today = getFormatDate(new Date())
+            {#let year = $('#input-year').val();#}
+            {#let month = $('#input-month').val();#}
+            {#let date = $('#input-date').val();#}
+            let wod = $('#wod_name').text();
+            let weight = $('#input-lb').val();
+            let round = $('#input-round').val();
+            let time = $('#input-time').val();
+
+            if (weight == "" && round == "" && time == "") {
+                alert('올바른 형식이 아닙니다.');
+                return;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/log",
+                data: {
+                    {#year_give: year,#}
+                    {#month_give: month,#}
+                    {#date_give: date,#}
+                    date_give: today,
+                    wod_give: wod,
+                    weight_give: weight,
+                    round_give: round,
+                    time_give: time,
+                    id_give: id
+                },
+                success: function (response) {
+                    alert(response["msg"]);
+                    window.location.reload();
+                }
+            })
+        }
+
+
+        // 운동기록 보여주기
+        function showLog() {
+            // 서버의 데이터를 받아오기
+            $.ajax({
+                type: "GET",
+                url: "/log/{{ user_id }}",
+                data: {},
+                success: function (response) {
+                    logData = JSON.parse(response['all_logData']);
+                }
+            })
+        }
+
+        function sign_out() {
+            $.removeCookie('mytoken', {path: '/'});
+            alert('로그아웃!')
+            window.location.href = "/login"
+        }
+
+        function delete_log(_id) {
+            $.ajax({
+                type: "POST",
+                url: "/logdelete",
+                data: {
+                    _id: JSON.stringify(_id)
+                },
+                success: function (response) {
+                    alert(response["msg"]);
+                    window.location.reload();
+                }
+            })
+        }
+
+        {#카드 별로 운동 이름을 모달로 전달함#}
+        $(document).on("click", ".js-modal-trigger", function () {
+            let wod_name = $(this).data('name');
+            $('#wod_name').text(wod_name)
+            showtable()
+        });
+
+        // $("#modal-js").on('shown', function () {
+        //    showLog();
+        //});
+
+        function showtable() {
+            $('#logs-table').empty();
+            for (let i = 0; i < logData.length; i++) {
+                let date = logData[i]['date']
+                let wod = logData[i]['wod']
+                let weight = logData[i]['weight']
+                let round = logData[i]['round']
+                let time = logData[i]['time']
+                let _id = JSON.stringify(logData[i]['_id'])
+
+                let weight_form = "";
+                let round_form = "";
+                let time_form = "";
+
+                if (weight != "") {
+                    weight_form = weight + 'lb ';
+                }
+                if (round != "") {
+                    round_form = round + 'round ';
+                }
+                if (time != "") {
+                    time_form = time + 'min';
+                }
+
+                if (wod == $('#wod_name').text()) {
+                    let temp_html = `<tr class="has-text-grey">
+                                            <td>${date}</td>
+                                            <td>${weight_form}${round_form}${time_form}</td>
+                                            <td><button class="delete is-medium" onclick=delete_log(${_id})></button></td>
+                                        </tr>`
+                    $('#logs-table').append(temp_html)
+                }
+            }
+        }
+
+    </script>
+    <style>
+        .image img {
+            display: block;
+            height: 280px;
+            width: 100%;
+        }
+
+        .ex_info_log {
+            margin-bottom: 30px;
+            height: 250px;
+            overflow: auto;
+        }
+
+        .is-fullwidth {
+            height: 100px;
+        }
+    </style>
+</head>
+
+
+<body>
+<!-- 상단바 : 제작중 -->
+<nav class="navbar is-light" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+        <a class="navbar-item" href="/">
+            <p class="title">Named WOD &nbsp;| </p>
+        </a>
+        <!-- 로그인하면 보이는 회원 이름 -->
+        <a class="navbar-item">
+            <p class="title3 user-name" id="user-name"><strong class="has-text-link">{{ user_id }}</strong> 님, 안녕하세요!
+            </p>
+        </a>
+
+        
+        <div class="tabs is-large">
+  <ul>
+    <li><a href="https://www.youtube.com/results?search_query=%ED%81%AC%EB%A1%9C%EC%8A%A4%ED%95%8F+%EB%A3%A8%ED%8B%B4">Videos</a></li>
+    <li><a href="https://www.bing.com/videos/search?q=Crossfit+music&view=detail&mid=61B7611EC227E17E3AB961B7611EC227E17E3AB9&FORM=VIRE"> Music</a></li>
+    <li><a href="https://gall.dcinside.com/mgallery/board/lists/?id=hiit">Community</a></li>
+    <li><a href="https://map.naver.com/v5/search/%ED%81%AC%EB%A1%9C%EC%8A%A4%ED%95%8F%20%EC%84%BC%ED%84%B0">Crossfit Box</a></li>
+  </ul>
+</div>
+
+        {#  로그아웃  #}
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <div class="buttons">
+                    <a class="button  button is-link is-outlined" onclick="sign_out()">
+                        Log Out
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+<!-- 중간 : 내용 출력 -->
+<section class="mid-section">
+    <div id="card-box" class="columns is-flex-wrap-wrap mt-3">
+        {% for wod in wod_info %}
+            <div class="box container column is-half is-flex-wrap-wrap" style="width: 900px;">
+                <article class="media">
+                    <div class="media-left">
+                        <figure class="image is-80x80">
+                            <img src="{{ wod.img }}" alt="Image" style="border-radius: 8px;">
+                        </figure>
+                    </div>
+                    <!-- 운동 정보 -->
+                    <div class="media-content">
+                        <div class="content">
+                            <!-- 운동 이름 -->
+                            <h1 class="exercise-name">{{ wod.name }}</h1>
+
+                            <!-- 운동 유형 -->
+                            <h4 class="exercise-type has-text-link">{{ wod.type }}</h4>
+
+                            <!-- 운동 설명 -->
+                            <p class="exercise-info">
+                                {{ wod.content|safe }}
+                            </p>
+                        </div>
+
+                        <!-- button : 기록 보기 버튼 -->
+                        <button class="button is-link is-outlined js-modal-trigger" data-target="modal-js"
+                                data-name="{{ wod.name }}" onclick=showtable()>
+                            기록보기
+                        </button>
+                    </div>
+                </article>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- 운동 정보 모달창  -->
+<div class="modal" id="modal-js">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title"><span class="modal-card-title" id="wod_name"></span>&nbspRECORD !! 🏃‍♀️🏃‍♂️
+            </p>
+            <button class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+            <!-- 운동 기록 : 로그 -->
+            <div class="ex_info_log">
+                <!-- 정보를 보여줄 table -->
+                <table class="table is-fullwidth">
+                    <thead>
+                    <tr>
+                        <th><abbr title="year">DATE</abbr></th>
+                        <th><abbr title="record">RECENT RECORDS</abbr></th>
+                        <th><abbr title="del"></abbr></th>
+                    </tr>
+                    </thead>
+
+                    <!-- 운동 기록들 -->
+                    <tbody id="logs-table">
+                    <tr>
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 운동 기록 : 날짜 입력 -->
+            {#            <div class="today_time columns">#}
+            {#                <!-- 년도 -->#}
+            {#                <div class="column">#}
+            {#                    <div class="field is-horizontal">#}
+            {#                        <div class="field-label is-normal">#}
+            {#                            <label class="label">year</label>#}
+            {#                        </div>#}
+            {#                        <div class="field-body">#}
+            {#                            <div class="field">#}
+            {#                                <p class="control">#}
+            {#                                    <input class="input input-year" id="input-year" type="text" placeholder="ex_2022">#}
+            {#                                </p>#}
+            {#                            </div>#}
+            {#                        </div>#}
+            {#                    </div>#}
+            {#                </div>#}
+            {#                <!-- 월 -->#}
+            {#                <div class="column">#}
+            {#                    <div class="field is-horizontal">#}
+            {#                        <div class="field-label is-normal">#}
+            {#                            <label class="label">month</label>#}
+            {#                        </div>#}
+            {#                        <div class="field-body">#}
+            {#                            <div class="field">#}
+            {#                                <p class="control">#}
+            {#                                    <input class="input input-month" id="input-month" type="text" placeholder="ex_1">#}
+            {#                                </p>#}
+            {#                            </div>#}
+            {#                        </div>#}
+            {#                    </div>#}
+            {#                </div>#}
+            {#                <!-- 일 -->#}
+            {#                <div class="column">#}
+            {#                    <div class="field is-horizontal">#}
+            {#                        <div class="field-label is-normal">#}
+            {#                            <label class="label">date</label>#}
+            {#                        </div>#}
+            {#                        <div class="field-body">#}
+            {#                            <div class="field">#}
+            {#                                <p class="control">#}
+            {#                                    <input class="input input-date" id="input-date" type="text" placeholder="ex_10">#}
+            {#                                </p>#}
+            {#                            </div>#}
+            {#                        </div>#}
+            {#                    </div>#}
+            {#                </div>#}
+            {#            </div>#}
+
+
+            <!-- 운동 기록 : 입력 -->
+            <div class="user_input">
+
+                <!-- 와드이름  -->
+                {#                <div class="field is-horizontal">#}
+                {#                    <div class="field-label is-normal">#}
+                {#                        <label class="label">Wod name</label>#}
+                {#                    </div>#}
+                {#                    <div class="field-body">#}
+                {#                        <div class="field">#}
+                {#                            <p class="control">#}
+                {#                                <input class="input input-lb" id="input-wod" type="text" placeholder="wod">#}
+                {#                            </p>#}
+                {#                        </div>#}
+                {#                    </div>#}
+                {#                </div>#}
+
+
+                <!-- 중량 -->
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Weight</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <p class="control">
+                                <input class="input input-lb" id="input-lb" type="number" placeholder="lb">
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 라운드 -->
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Round</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <p class="control">
+                                <input class="input input-round" id="input-round" type="number" placeholder="Round">
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 시간 -->
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Time</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <p class="control">
+                                <input class="input input-time" id="input-time" type="number" placeholder="min">
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <footer class="modal-card-foot">
+            <button class="button is-success" onclick=makeLog()>기록 저장</button>
+            <button class="button">취소</button>
+        </footer>
+    </div>
+</div>
+
+<!-- modal창 작동을 위한 js : 건들지 말 것 -->
+<script src="/static/modal.js"></script>
+</body>
+</html>
