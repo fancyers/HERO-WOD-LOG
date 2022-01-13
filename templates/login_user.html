@@ -2,9 +2,12 @@
 <html lang="ko">
 
 <head>
+
+
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Named WOD | Log</title>
+    <title>USER PAGE | HERO WOD LOG</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
@@ -16,7 +19,7 @@
     <link href='{{ url_for("static", filename="modals.js") }}' rel="javascript">
 
     <!-- favicon -->
-    <link rel="icon" href="{{ url_for('static', filename='#') }}" type="image/x-icon">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
 
     <!-- google font -->
     <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
@@ -188,7 +191,7 @@
 <nav class="navbar is-light" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
         <a class="navbar-item" href="/">
-            <p class="title">Named WOD &nbsp;| </p>
+            <p class="title">Hero WOD LOG &nbsp;| </p>
         </a>
         <!-- 로그인하면 보이는 회원 이름 -->
         <a class="navbar-item">
@@ -199,6 +202,7 @@
         
         <div class="tabs is-large">
   <ul>
+    <li><a href="https://www.crossfit.com/">Homepage</a></li>
     <li><a href="https://www.youtube.com/results?search_query=%ED%81%AC%EB%A1%9C%EC%8A%A4%ED%95%8F+%EB%A3%A8%ED%8B%B4">Videos</a></li>
     <li><a href="https://www.bing.com/videos/search?q=Crossfit+music&view=detail&mid=61B7611EC227E17E3AB961B7611EC227E17E3AB9&FORM=VIRE"> Music</a></li>
     <li><a href="https://gall.dcinside.com/mgallery/board/lists/?id=hiit">Community</a></li>
@@ -409,5 +413,16 @@
 
 <!-- modal창 작동을 위한 js : 건들지 말 것 -->
 <script src="/static/modal.js"></script>
+
+<footer class="footer mt-3">
+  <div class="content has-text-centered">
+    <p>
+        <strong>hanhae99</strong> by <strong class="has-text-link-dark">1 TEAM</strong>
+        &nbsp;| &nbsp;<strong class="has-text-link-dark">Project : </strong>HERO WOD LOG
+        &nbsp;| &nbsp;<strong class="has-text-link-dark">Dev.</strong> 유주현, 김정호, 김경미, 오경은
+    </p>
+  </div>
+</footer>
+
 </body>
 </html>

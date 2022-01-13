@@ -3,7 +3,16 @@
 <head>
 
     <!-- Webpage Title -->
-    <title>Log In | SWEETER</title>
+    <title>LOG IN | HERO WOD LOG</title>
+
+    <!--    og태그    -->
+    <meta property="og:title" content="HERO WOD LOG"/>
+    <meta property="og:site_name" content="Hero WOD LOG"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="http://15.165.203.11"/>
+    <meta property="og:image" content="{{ url_for('static', filename='ogimage.png')}}">
+    <meta property="og:description" content="
+크로스핏의 특별한 WOD에 당신의 기록을 남겨보세요."/>
 
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -17,6 +26,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100&family=Roboto:wght@100&display=swap"
           rel="stylesheet">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+
     <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
@@ -41,7 +52,7 @@
         }
 
         .login_bp {
-            background-image: url({{ url_for('static', filename='login_bg.jpg') }});
+            background-image: url({{ url_for('static', filename='login_bg.png') }});
             background-position: center;
             background-size: cover;
 
@@ -49,31 +60,31 @@
             height: 120%;
         }
 
-        .is-sparta {
+        .theme_color {
             color: #33B0FF !important;
         }
 
-        .button.is-sparta {
+        .button.theme_color {
             background-color: gray;
             color: white !important;
             transition: all 0.3s;
         }
 
-        .button.is-sparta:hover {
+        .button.theme_color:hover {
             background-color: #969696;
             box-shadow: 2px 2px 3px 0 #99A3A4;
             border: none;
             transition: all 0.3s;
         }
 
-        .button.is-sparta.is-outlined {
+        .button.theme_color.is-outlined {
             background-color: transparent;
             border-color: gray;
             color: gray !important;
             transition: all 0.3s;
         }
 
-        .button.is-sparta.is-outlined:hover {
+        .button.theme_color.is-outlined:hover {
             background-color: #d9d9d9;
             color: #fff !important;
             border-color: gray;
@@ -316,7 +327,7 @@
                             <span class="icon is-small is-left"><i class="fa fa-user"></i></span>
                         </div>
                         <div id="btn-check-dup" class="control is-hidden">
-                            <button class="button is-sparta" onclick="check_dup()">중복확인</button>
+                            <button class="button theme_color" onclick="check_dup()">중복확인</button>
                         </div>
 
                     </div>
@@ -337,7 +348,7 @@
                 </div>
                 <div id="div-sign-in-or-up" class="has-text-centered">
                     <nav class="level is-mobile">
-                        <button class="level-item button is-sparta" onclick="sign_in()">
+                        <button class="level-item button theme_color" onclick="sign_in()">
                             로그인
                         </button>
 
@@ -346,7 +357,7 @@
                     <h4 class="mb-3">회원이 아니신가요?</h4>
                     <nav class="level is-mobile">
 
-                        <button class="level-item button is-sparta is-outlined"
+                        <button class="level-item button theme_color is-outlined"
                                 onclick="toggle_sign_up()">
                             회원가입하기
                         </button>
@@ -366,10 +377,10 @@
                         </div>
                     </div>
                     <nav class="level is-mobile">
-                        <button class="level-item button is-sparta" onclick="sign_up()">
+                        <button class="level-item button theme_color" onclick="sign_up()">
                             회원가입
                         </button>
-                        <button class="level-item button is-sparta is-outlined" onclick="toggle_sign_up()">
+                        <button class="level-item button theme_color is-outlined" onclick="toggle_sign_up()">
                             취소
                         </button>
                     </nav>
