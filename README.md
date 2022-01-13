@@ -42,23 +42,24 @@ back-end|back-end|front-end|back-end
 ---
 ## 🏃‍♀️ 시연 영상 및 사진
 ### 영상 링크
-[HERO WOD LOG 유튜브 영상](https://youtu.be/zoF5gpknwzM)  
+[HERO WOD LOG 유튜브 영상](https://youtu.be/zoF5gpknwzM)    
 
 ### 사진
-▶ 로그인 및 회원가입
-![](https://images.velog.io/images/daymoon_/post/a93d2904-72c2-4d66-b2fb-6668f8527b77/image.png)
-![](https://images.velog.io/images/daymoon_/post/64cbd713-d8ea-4b13-ac98-f3ee8bec6ebe/image.png)
+▶ 로그인 및 회원가입  
+![](https://images.velog.io/images/daymoon_/post/ccc187e9-cd31-4238-96ba-40777d0c0035/image.png)
 
 <br>
 
 ▶ 홈화면 상단 및 하단
+
 ![](https://images.velog.io/images/daymoon_/post/c34f4dba-b25d-4ac2-aaa0-c04932319c70/image.png)
+
 ![](https://images.velog.io/images/daymoon_/post/376d7eee-97f6-4047-b5b0-997a469b1872/image.png)
 
 <br>
 
 
-▶ 기록 저장
+▶ 기록 저장  
 ![image](https://user-images.githubusercontent.com/83294927/149264804-e0c440c4-d01c-422c-a8f7-f3c833127012.png)
 
 
