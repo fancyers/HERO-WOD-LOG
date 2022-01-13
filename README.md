@@ -59,4 +59,5 @@ back-end|back-end|front-end|back-end
 
 
 
-
+배포 url
+http://15.165.203.11/
