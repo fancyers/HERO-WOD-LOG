@@ -1,8 +1,9 @@
-# HERO WOD LOG
+# NamedWODs
+### 🔗 홈페이지 url link : http://15.165.203.11/
 ![](https://images.velog.io/images/daymoon_/post/4d63fe4d-d569-47d0-88b3-807a605a6608/login_bg.png)
 
 ### Notion Link
-[항해99 3반 1조 HERO WOD LOG 프로젝트 Notion](https://www.notion.so/1-dbe6b88639fb413ab611fde830044e3f)  
+[항해99 3반 1조 NamedWODs 프로젝트 Notion](https://www.notion.so/1-dbe6b88639fb413ab611fde830044e3f)  
 
 <br>
 
@@ -41,7 +42,7 @@ back-end|back-end|front-end|back-end
 ---
 ## 🏃‍♀️ 시연 영상 및 사진
 ### 영상 링크
-[HERO WOD LOG 유튜브 영상](https://youtu.be/zoF5gpknwzM)  
+[NamedWODs 유튜브 영상](https://youtu.be/zoF5gpknwzM)  
 
 ### 사진
 ▶ 로그인 및 회원가입
@@ -58,6 +59,3 @@ back-end|back-end|front-end|back-end
 ▶ 기록 저장
 
 
-
-배포 url
-http://15.165.203.11/
