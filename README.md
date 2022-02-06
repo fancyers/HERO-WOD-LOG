@@ -43,6 +43,9 @@ back-end|back-end|front-end|back-end
 ## 🏃‍♀️ 시연 영상 및 사진
 ### 영상 링크
 [HERO WOD LOG 유튜브 영상](https://youtu.be/zoF5gpknwzM)    
+https://user-images.githubusercontent.com/43710866/152680791-ce187e55-f887-43b4-997f-228eaa24a0f0.mp4
+
+
 
 ### 사진
 ▶ 로그인 및 회원가입  
